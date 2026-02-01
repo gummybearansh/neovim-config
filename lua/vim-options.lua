@@ -150,11 +150,11 @@ local no_ligatures = { "-calt", "-liga" }
 --
 --
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*",
-    desc = "Prevent comment continuation",
-    callback = function()
-      vim.opt_local.formatoptions:remove({ 'c', 'r', 'o' })
-  end,
+	pattern = "*",
+	desc = "Prevent comment continuation",
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+	end,
 })
 
 -- ==========================================
@@ -164,30 +164,41 @@ vim.api.nvim_create_autocmd("FileType", {
 -- 1. Toggle Spell Check (<leader>us)
 -- 's' stands for Spell. This is safe because it's behind 'u'.
 vim.keymap.set("n", "<leader>us", function()
-    vim.opt.spell = not vim.opt.spell:get()
-  if vim.opt.spell:get() then
-        print("📝 Spell Check: ON")
-  else
-      print("📝 Spell Check: OFF")
-  end
+	vim.opt.spell = not vim.opt.spell:get()
+	if vim.opt.spell:get() then
+		print("📝 Spell Check: ON")
+	else
+		print("📝 Spell Check: OFF")
+	end
 end, { desc = "Toggle Spell Check" })
 
 -- 2. Toggle Autocomplete (<leader>ua)
 -- 'a' stands for Autocomplete.
 vim.keymap.set("n", "<leader>ua", function()
-    local cmp = require("cmp")
-  local current = cmp.get_config().completion.autocomplete
-    
-    if current and #current > 0 then
-        -- Turn it OFF
-      cmp.setup({ completion = { autocomplete = false } })
-    print("🤖 Autocomplete: OFF")
-  else
-      -- Turn it ON (Default behavior)
-      cmp.setup({ completion = { autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged } } })
-    print("🤖 Autocomplete: ON")
-  end
+	local cmp = require("cmp")
+	local current = cmp.get_config().completion.autocomplete
+
+	if current and #current > 0 then
+		-- Turn it OFF
+		cmp.setup({ completion = { autocomplete = false } })
+		print("🤖 Autocomplete: OFF")
+	else
+		-- Turn it ON (Default behavior)
+		cmp.setup({ completion = { autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged } } })
+		print("🤖 Autocomplete: ON")
+	end
 end, { desc = "Toggle Autocomplete" })
 
 -- Force gx to use the system 'open' command (macOS specific)
 vim.keymap.set("n", "gx", [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], { silent = true })
+
+-- Disable swap files for Markdown (Prevents iCloud/Obsidian sync errors)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		vim.opt_local.swapfile = false
+	end,
+})
+
+-- Ensure persistent undo is on (So you still have history if you crash)
+vim.opt.undofile = true
