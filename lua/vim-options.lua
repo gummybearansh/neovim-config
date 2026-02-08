@@ -202,3 +202,28 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Ensure persistent undo is on (So you still have history if you crash)
 vim.opt.undofile = true
+
+-- // mapping to cycle files
+vim.keymap.set("n", "<leader>ww", "<C-w>w", { desc = "Cycle windows" })
+
+-- Cycle through "Today's Notes" (Quickfix List)
+-- do <ns>{{todays_date}}
+vim.keymap.set("n", "]q", "<cmd>cnext<cr>", { desc = "Next Note (Quickfix)" })
+vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Prev Note (Quickfix)" })
+
+-- -- Show filename at the top of every split
+-- -- %= (Align right)
+-- -- %m (Show [+] if modified)
+-- -- %f (Show filename relative to project root)
+-- vim.opt.winbar = "%=%m %f"
+
+-- In Terminal mode, 'Esc Esc' runs the command to exit to Normal Mode
+vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
+
+
+-- move selected lines around
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+vim.opt.incsearch = true
+

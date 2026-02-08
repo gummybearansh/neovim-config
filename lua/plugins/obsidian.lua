@@ -13,7 +13,20 @@ return {
 
 		-- Keep your commands and keys (they are fine)
 		cmd = { "ObsidianNew", "ObsidianToday", "ObsidianSearch", "ObsidianQuickSwitch" },
+
 		keys = {
+			{
+				"<leader>ng",
+				function()
+					-- This uses Telescope to search INSIDE files
+					-- We force the 'cwd' (current directory) to your Vault
+					require("telescope.builtin").live_grep({
+						cwd = vim.fn.expand("~/Library/Mobile Documents/iCloud~md~obsidian/Documents/SecondBrain"),
+						prompt_title = "Grep Vault Content",
+					})
+				end,
+				desc = "Note: Grep Content",
+			},
 			{
 				"<leader>nm",
 				function()
@@ -21,18 +34,14 @@ return {
 				end,
 				desc = "Auto-Refile Note based on Tags",
 			},
-			{
-				"<leader>nv",
-				function()
-					vim.cmd(
-						"cd "
-							.. vim.fn.expand("~")
-							.. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/SecondBrain"
-					)
-					vim.cmd("Neotree toggle")
-				end,
-				desc = "Note: Open Vault",
-			},
+			-- {
+			-- 	"<leader>nv",
+			-- 	function()
+			-- 		vim.cmd("cd " .. vim.fn.expand("~") .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/")
+			-- 		vim.cmd("Neotree toggle")
+			-- 	end,
+			-- 	desc = "Note: Open Vault",
+			-- },
 			{
 				"<leader>nn",
 				function()
@@ -54,7 +63,7 @@ return {
 		config = function()
 			require("obsidian").setup({
 
-				-- ⬇️ FIX 2: This block MUST be inside .setup()
+				-- 1. FIX COMPLETION
 				completion = {
 					nvim_cmp = true,
 					min_chars = 2,
@@ -67,28 +76,30 @@ return {
 					},
 				},
 
+				-- 2. FIX TEMPLATES & ADD CUSTOM VARIABLES
 				templates = {
 					folder = "templates",
-					date_format = "%Y-%m-%d",
-					time_format = "%H:%M",
+					date_format = "%Y-%m-%d", -- This ensures the tag is #2026-02-03
+					time_format = "%A", -- This keeps {{time}} as "Tuesday"
 				},
 
+				-- 3. FIX NOTE ID (Your Clean Name Logic)
 				note_id_func = function(title)
-					local suffix = ""
-					if title ~= nil then
-						suffix = title:gsub(" ", "_"):gsub("[^A-Za-z0-9-_]", ""):lower()
-					else
-						suffix = "untitled"
+					if title == nil or title == "" then
+						return tostring(os.date("%d-%m-%Y-%H%M"))
 					end
-					return tostring(os.date("%d-%m-%Y")) .. "-" .. suffix
+					return title:gsub(" ", "_"):gsub("[^A-Za-z0-9-_]", ""):lower()
 				end,
 
+				-- 4. FIX DAILY NOTES (Point to a real file!)
 				daily_notes = {
 					folder = "dailies",
 					date_format = "%d-%m-%Y",
-					template = nil,
+					-- ⚠️ This file MUST exist in your templates folder
+					template = "Daily.md",
 				},
 
+				-- 5. PREVENT DUPLICATES (No Auto-Frontmatter)
 				disable_frontmatter = false,
 
 				mappings = {

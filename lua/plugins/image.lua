@@ -1,42 +1,47 @@
-return {
-	{
-		"3rd/image.nvim",
-		dependencies = { "luarocks.nvim" }, -- Required to build the magic bindings
-		config = function()
-			require("image").setup({
-				backend = "kitty", -- Neovide uses the Kitty protocol for images
-				integrations = {
-					markdown = {
-						enabled = true,
-						clear_in_insert_mode = false,
-						download_remote_images = true,
-						only_render_image_at_cursor = false,
-						filetypes = { "markdown", "vimwiki" }, -- Render in MD files
-					},
-					neorg = {
-						enabled = true,
-						filetypes = { "norg" },
-					},
-				},
-				max_width = nil,
-				max_height = nil,
-				max_width_window_percentage = nil,
-				max_height_window_percentage = 50, -- Don't let images take over the whole screen
-				window_overlap_clear_enabled = false, -- Toggles images when windows overlap
-				editor_only_render_when_focused = false, -- Render images in inactive windows
-				tmux_show_only_in_active_window = false,
-				hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- Open image files directly
-			})
-		end,
-},
-
-	-- You likely need this to build the heavy backend logic
-	{
-		"vhyrro/luarocks.nvim",
-		priority = 1000, -- We' want this to load fast
-		config = true,
-		opts = {
-			rocks = { "magick" }, -- This automatically installs the Lua->Magick bridge
-		},
-	},
-}
+return {}
+-- if vim.g.neovide then
+--   return {}
+-- end
+--
+-- return {
+-- 	{
+-- 		"3rd/image.nvim",
+-- 		dependencies = { "luarocks.nvim" }, -- Required to build the magic bindings
+-- 		config = function()
+-- 			require("image").setup({
+-- 				backend = "kitty", -- Neovide uses the Kitty protocol for images
+-- 				integrations = {
+-- 					markdown = {
+-- 						enabled = true,
+-- 						clear_in_insert_mode = false,
+-- 						download_remote_images = true,
+-- 						only_render_image_at_cursor = false,
+-- 						filetypes = { "markdown", "vimwiki" }, -- Render in MD files
+-- 					},
+-- 					neorg = {
+-- 						enabled = true,
+-- 						filetypes = { "norg" },
+-- 					},
+-- 				},
+-- 				max_width = nil,
+-- 				max_height = nil,
+-- 				max_width_window_percentage = nil,
+-- 				max_height_window_percentage = 50, -- Don't let images take over the whole screen
+-- 				window_overlap_clear_enabled = false, -- Toggles images when windows overlap
+-- 				editor_only_render_when_focused = false, -- Render images in inactive windows
+-- 				tmux_show_only_in_active_window = false,
+-- 				hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- Open image files directly
+-- 			})
+-- 		end,
+-- },
+--
+-- 	-- You likely need this to build the heavy backend logic
+-- 	{
+-- 		"vhyrro/luarocks.nvim",
+-- 		priority = 1000, -- We' want this to load fast
+-- 		config = true,
+-- 		opts = {
+-- 			rocks = { "magick" }, -- This automatically installs the Lua->Magick bridge
+-- 		},
+-- 	},
+-- }
