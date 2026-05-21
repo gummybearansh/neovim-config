@@ -42,6 +42,10 @@ return {
         running_directory = ".",
         run_command = {
           cpp = { exec = "./$(FNOEXT)" },
+          -- ==========================================
+          -- NEW: Run Python files using PyPy3
+          -- ==========================================
+          python = { exec = "pypy3", args = { "$(FNAME)" } },
         },
       })
     end,

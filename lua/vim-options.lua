@@ -51,7 +51,7 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
-vim.opt.scrolloff = 10
+-- vim.opt.scrolloff = 10
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
@@ -139,15 +139,6 @@ vim.keymap.set("n", "<D-->", function()
 	change_scale_factor(1 / 1.1)
 end)
 
-local no_ligatures = { "-calt", "-liga" }
---
--- vim.g.neovide_font_features = {
---       ["0xProto Nerd Font Mono"] = no_ligatures,
---       ["0xProtoNerdFontMono-Regular"] = no_ligatures,
---       ["0xProto Nerd Font"] = no_ligatures,
---       ["0xProto"] = no_ligatures,
--- }
---
 --
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
@@ -220,10 +211,22 @@ vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Prev Note (Quickfix)" })
 -- In Terminal mode, 'Esc Esc' runs the command to exit to Normal Mode
 vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
-
 -- move selected lines around
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.opt.incsearch = true
 
+-- completely disable swap files
+vim.opt.swapfile = false
+
+-- enable persistent undo (history is saved to a file)
+vim.opt.undofile = true
+
+-- optional: save all undo files in one customized location
+-- (keeps your project directories clean)
+vim.opt.undodir = os.getenv("HOME") .. "/.nvim/undodir"
+
+vim.opt.guicursor = "n-v-c-i:block"
+
+vim.opt.smoothscroll = true

@@ -10,6 +10,7 @@ return {
       "#include <bits/stdc++.h>",
       "",
 			"#define ll long long",
+      '#define dbg(v) cout << "Line(" << __LINE__ << ") -> " << #v << " = " << (v) << endl;',
       "",
 			"using namespace std;",
 			"",

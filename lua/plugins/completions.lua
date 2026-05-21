@@ -67,11 +67,11 @@ return {
 				}),
 
 				-- Your C++ specific config
-				cmp.setup.filetype("cpp", {
-					completion = {
-						autocomplete = false, -- Kept off as you requested
-					},
-				}),
+				-- cmp.setup.filetype("cpp", {
+				-- 	completion = {
+				-- 		autocomplete = true, -- Kept off as you requested
+				-- 	},
+				-- }),
 			})
 		end,
 	},

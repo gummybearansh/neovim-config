@@ -1,3 +1,6 @@
+if vim.g.neovide then
+      return {} -- Exit the file early, preventing the rest of the configuration from running
+end
 return {}
 -- return {
 --   {
